@@ -1,5 +1,7 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import {
+  makeStyles
+} from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -10,36 +12,36 @@ import MenuIcon from "@material-ui/icons/Menu";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    
   },
   menuButton: {
     marginRight: theme.spacing(2),
+    
   },
   title: {
     flexGrow: 1,
   },
+  AppBar: {
+    backgroundColor: "#e53935",
+    position: "fixed",
+  }
+
 }));
 
 export default function Navbar() {
   const classes = useStyles();
 
-  return (
-    <div className={classes.root}>
-      <AppBar position="static">
+  return ( 
+    <div className = {classes.root}>
+      <AppBar position = "static" className={classes.AppBar}>
         <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            News
-          </Typography>
-          <Button color="inherit">Login</Button>
-        </Toolbar>
+          <IconButton edge = "start" className = {classes.menuButton} color = "inherit" aria-label = "menu">
+            <MenuIcon/>
+          </IconButton> 
+          <Typography variant = "h6" className = {classes.title}>Appartment 1101</Typography> <Button color = "inherit" >Login</Button>
+        </Toolbar> 
       </AppBar>
     </div>
+    
   );
 }
