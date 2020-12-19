@@ -1,6 +1,6 @@
 import "./App.css";
 import Navbar from "./Layout/Navbar";
-import home from "./Layout/home";
+import Community from "./Community";
 import { useStateValue } from "./Layout/StateProvider";
 import {
   BrowserRouter as Router,
@@ -8,6 +8,8 @@ import {
   Route,
   useHistory,
 } from "react-router-dom";
+import { Component } from "react";
+import Household from "./Household";
 
 function App() {
   const [{ user }, dispatch] = useStateValue();
@@ -15,43 +17,20 @@ function App() {
   return (
     <Router>
       <div>
-         <Navbar />
-        <div style={{ minHeight: window.innerHeight }}>
+        <Navbar />
+        <div>
           <Switch>
-            <Route path="/"
-            component={home} 
-            />
-            <Route path="/register">
-              <h1>Account</h1>
+            <Route path="/community">
+              <Community />
             </Route>
-            <Route path="/log">
-              <h1>Hello</h1>
+            <Route path="/household">
+              <Household />
             </Route>
-            <Route path="/login">
-              <h1>Account</h1>
-            </Route>
-            <Route path="/cart">
-              <h1>Account</h1>
-              <Route path="/"
-            component={home} />
+            <Route path="/">
+              <h1>Home Page</h1>
             </Route>
           </Switch>
         </div>
-        <footer
-          style={{
-            position: "static",
-            right: 0,
-            bottom: 0,
-            width: "100%",
-            color: "white",
-            textAlign: "right",
-            marginTop: "15vh",
-          }}
-        >
-          <a href="https://www.freepik.com/vectors/logo">
-            Logo vector created by catalyststuff - www.freepik.com
-          </a>
-        </footer>
       </div>
     </Router>
   );
