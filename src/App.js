@@ -10,6 +10,10 @@ import {
 } from "react-router-dom";
 import { Component } from "react";
 import Household from "./Household";
+import Activity from "./Activity";
+import Home from "./Home";
+
+
 
 function App() {
   const [{ user }, dispatch] = useStateValue();
@@ -17,8 +21,9 @@ function App() {
   return (
     <Router>
       <div>
-        <Navbar />
-        <div>
+        <div >
+          <Navbar />
+        </div>
           <Switch>
             <Route path="/community">
               <Community />
@@ -26,11 +31,14 @@ function App() {
             <Route path="/household">
               <Household />
             </Route>
+            <Route path="/activity">
+              <Activity />
+            </Route>
             <Route path="/">
-              <h1>Home Page</h1>
+              <Home />
             </Route>
           </Switch>
-        </div>
+       
       </div>
     </Router>
   );

@@ -19,11 +19,11 @@ import ListItemText from "@material-ui/core/ListItemText";
 import HomeIcon from "@material-ui/icons/Home";
 import PeopleIcon from "@material-ui/icons/People";
 
-const drawerWidth = 240;
+const drawerWidth = 200;
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex",
+    display: "inline",
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -50,7 +50,6 @@ const useStyles = makeStyles((theme) => ({
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
-    whiteSpace: "nowrap",
   },
   drawerOpen: {
     width: drawerWidth,
@@ -90,7 +89,7 @@ const useStyles = makeStyles((theme) => ({
   },
   card: {
     width: "200px",
-    marginTop: "5vh",
+    marginTop: '5vh',
   },
 }));
 
