@@ -1,11 +1,13 @@
 import "./App.css";
 import { useStateValue } from "./Layout/StateProvider";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import Communications from "./Communications";
 import Community from "./Community";
-import Household from "./Household";
 import Sidebar from "./Sidebar";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Household from "./Household";
+import Activity from "./Activity";
+import Home from "./Home";
 
 function App() {
   const [{ user }, dispatch] = useStateValue();
@@ -24,6 +26,12 @@ function App() {
               </Route>
               <Route path="/communications">
                 <Communications />
+              </Route>
+              <Route path="/activity">
+                <Activity />
+              </Route>
+              <Route path="/">
+                <Home />
               </Route>
             </Switch>
           </div>
