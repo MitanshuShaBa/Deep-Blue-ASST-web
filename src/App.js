@@ -8,9 +8,20 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Household from "./Household";
 import Activity from "./Activity";
 import Home from "./Home";
+import { db } from "./firebase";
 
 function App() {
   const [{ user }, dispatch] = useStateValue();
+
+  // For Ref:
+  // db.collection("users")
+  //   .get()
+  //   .then(function (querySnapshot) {
+  //     querySnapshot.forEach(function (doc) {
+  //       console.log(doc.id, " => ", doc.data());
+  //     });
+  //   })
+  //   .catch((err) => console.log(err));
 
   return (
     <Router>
