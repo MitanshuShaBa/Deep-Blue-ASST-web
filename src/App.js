@@ -13,32 +13,29 @@ import Household from "./Household";
 import Activity from "./Activity";
 import Home from "./Home";
 
-
-
 function App() {
   const [{ user }, dispatch] = useStateValue();
 
   return (
     <Router>
       <div>
-        <div >
+        <div>
           <Navbar />
         </div>
-          <Switch>
-            <Route path="/community">
-              <Community />
-            </Route>
-            <Route path="/household">
-              <Household />
-            </Route>
-            <Route path="/activity">
-              <Activity />
-            </Route>
-            <Route path="/">
-              <Home />
-            </Route>
-          </Switch>
-       
+        <Switch>
+          <Route path="/community">
+            <Community />
+          </Route>
+          <Route path="/household">
+            <Household />
+          </Route>
+          <Route path="/activity">
+            <Activity />
+          </Route>
+          <Route path="/">
+            <Home />
+          </Route>
+        </Switch>
       </div>
     </Router>
   );
