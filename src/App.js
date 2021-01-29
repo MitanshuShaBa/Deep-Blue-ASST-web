@@ -1,6 +1,5 @@
 import "./App.css";
-import Navbar from "./Layout/Navbar";
-import Community from "./Community";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { useStateValue } from "./Layout/StateProvider";
 import {
   BrowserRouter as Router,
@@ -8,8 +7,11 @@ import {
   Route,
   useHistory,
 } from "react-router-dom";
-import { Component } from "react";
+
+import Communications from "./Communications";
+import Community from "./Community";
 import Household from "./Household";
+import Sidebar from "./Sidebar";
 
 function App() {
   const [{ user }, dispatch] = useStateValue();
@@ -17,7 +19,8 @@ function App() {
   return (
     <Router>
       <div>
-        <Navbar />
+        <Sidebar>
+
         <div>
           <Switch>
             <Route path="/community">
@@ -26,11 +29,12 @@ function App() {
             <Route path="/household">
               <Household />
             </Route>
-            <Route path="/">
-              <h1>Home Page</h1>
+            <Route path="/communications">
+              <Communications />  
             </Route>
           </Switch>
         </div>
+        </Sidebar> 
       </div>
     </Router>
   );
