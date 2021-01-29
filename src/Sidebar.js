@@ -16,10 +16,12 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import HomeIcon from "@material-ui/icons/Home";
-import PeopleIcon from "@material-ui/icons/People";
+import PeopleIcon from '@material-ui/icons/People';
+import ContactPhoneIcon from '@material-ui/icons/ContactPhone';
 import ForumIcon from "@material-ui/icons/Forum";
+import { useHistory } from "react-router-dom";
 
-const drawerWidth = 200;
+const drawerWidth = 220;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -98,11 +100,13 @@ export default function Sidebar({ children }) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const history = useHistory()
 
   const navItems = [
-    { text: "Household", icon: <HomeIcon /> },
-    { text: "Community", icon: <PeopleIcon /> },
-    { text: "Communications", icon: <ForumIcon /> },
+    { text: "Home", icon: <HomeIcon />, to:"/home" },
+    { text: "Activity", icon: <ContactPhoneIcon />, to:"/activity" },
+    { text: "Household", icon: <PeopleIcon />, to:"/household" },
+    { text: "Communications", icon: <ForumIcon />, to:"/communications" },
   ];
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -162,8 +166,8 @@ export default function Sidebar({ children }) {
         </div>
         <Divider />
         <List>
-          {navItems.map(({ text, icon }, index) => (
-            <ListItem button key={text}>
+          {navItems.map(({ text, icon, to }, index) => (
+            <ListItem button key={text} onClick={()=>history.push(to)}>
               <ListItemIcon>{icon}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
