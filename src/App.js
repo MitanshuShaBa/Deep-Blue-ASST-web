@@ -13,6 +13,7 @@ import Household from "./Household";
 import Activity from "./Activity";
 import Home from "./Home";
 
+
 function App() {
   const [{ user }, dispatch] = useStateValue();
 
