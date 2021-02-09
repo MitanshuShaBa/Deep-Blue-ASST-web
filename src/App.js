@@ -12,15 +12,14 @@ import { db } from "./firebase";
 function App() {
   const [{ user }, dispatch] = useStateValue();
 
-  // For Ref:
-  // db.collection("users")
-  //   .get()
-  //   .then(function (querySnapshot) {
-  //     querySnapshot.forEach(function (doc) {
-  //       console.log(doc.id, " => ", doc.data());
-  //     });
-  //   })
-  //   .catch((err) => console.log(err));
+   db.collection("users")
+     .get()
+     .then(function (querySnapshot) {
+       querySnapshot.forEach(function (doc) {
+         console.log(doc.id, " => ", doc.data());
+       });
+     })
+    .catch((err) => console.log(err));
 
   return (
     <Router>

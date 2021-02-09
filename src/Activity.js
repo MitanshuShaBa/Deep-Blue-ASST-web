@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
@@ -13,6 +13,7 @@ import Activitycards from "./Activitycards.js";
 import Button from "@material-ui/core/Button";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import { Menu, MenuItem } from "@material-ui/core";
+import { db } from "./firebase.js";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -58,6 +59,20 @@ export default function Activity() {
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
+  const [activities, setActivities] = useState([]);
+  useEffect(() => {
+    db.collection("visitation_log")
+      .get()
+      .then((querySnapshot) => {
+        let docs = [];
+        querySnapshot.forEach(function (doc) {
+          docs.push(doc.data());
+        });
+        setActivities(docs);
+        //console.log(docs)
+      })
+      .catch((err) => console.log(err));
+  }, []);
   return (
     <>
       <div className={classes.root}>
@@ -104,7 +119,27 @@ export default function Activity() {
       </div>
 
       <Grid container className={classes.Grid}>
-        <Activitycards
+        {activities.map(
+          ({ purpose, is_wearing_mask, temperature, user_id }, key) => {
+            //console.log(temperature);
+            return (
+              <Activitycards
+                purpose={purpose}
+                key={key}
+                is_wearing_mask={is_wearing_mask}
+                temperature={temperature}
+                user_id={user_id}
+                subheader="09:45 AM | Others"
+                typography3="Allowed by you"
+                myButton1="<CallIcon/>"
+                myButton2="Wrong Entry"
+                myButton3="Gate Pass"
+              />
+            );
+          }
+        )}
+        {/* <Activitycards
+          purpose={}
           title="Visiting Help"
           subheader="09:45 AM | Others"
           typography1="Dilshad"
@@ -133,7 +168,7 @@ export default function Activity() {
           myButton1="<CallIcon/>"
           myButton2="Wrong Entry"
           myButton3="Gate Pass"
-        />
+        /> */}
       </Grid>
     </>
   );

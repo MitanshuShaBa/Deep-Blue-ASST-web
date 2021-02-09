@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import Cards from "./Card.js";
 import { Avatar } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
+import { db } from "./firebase.js";
 
 const useStyles = makeStyles({
   root: {
@@ -40,19 +41,61 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Household() {
+const Household = () => {
+  const user_id = "M6IhURirXK9SWgfCk7wY";
   const classes = useStyles();
+  const [userInfo, setUserInfo] = useState({ name: "Loading..." });
+  useEffect(() => {
+    let retries = 5;
+
+    while (retries-- > 0) {
+      if (getUserInfo(user_id)) {
+        // console.log(retries);
+        break;
+      }
+    }
+  }, [user_id]);
+  const getUserInfo = (user_id) => {
+    // console.log("trying", user_id);
+    if (user_id) {
+      // console.log("has userid");
+      db.collection("users")
+        .doc(user_id)
+        .get()
+        .then((doc) => {
+          setUserInfo(doc.data());
+          // console.log(doc.data());
+          return true;
+        })
+        .catch((err) => {
+          console.log("err", err);
+          return false;
+        });
+    } else {
+      setTimeout(() => {}, 1000);
+    }
+  };
+
   return (
     <>
       <Grid container className={classes.Grid}>
-        <Grid Item xs={0} sm={1} />
+        {/* <Grid Item xs={0} sm={1} /> */}
+        {/* {userInfo.household?.map(({ name, photo_url }, key) => {
+          return (
+            <Household
+              name={name.split(" ", 1)}
+              photo_url={photo_url}
+              key={key}
+            />
+          );
+        })}   */}
         <Grid Item sm={10}>
           <Card className={classes.root}>
             <CardContent className={classes.Card}>
               <div style={{ display: "flex", padding: 10 }}>
-                <Avatar style={{ marginRight: 20 }} src="src\images\user.jpg" />
+                <Avatar style={{ marginRight: 20 }} src={userInfo.photo_url} />
                 <Typography variant="h5" component="h2">
-                  Mitanshu Reshamwala (Me)
+                  {userInfo.name}
                 </Typography>
               </div>
             </CardContent>
@@ -61,7 +104,7 @@ export default function Household() {
             </CardActions>
           </Card>
         </Grid>
-        <Grid Item xs={0} sm={1} />
+        {/* <Grid Item xs={0} sm={1} /> */}
       </Grid>
 
       <Grid container direction="column" className={classes.Grid}>
@@ -130,4 +173,6 @@ export default function Household() {
       </Grid>
     </>
   );
-}
+};
+
+export default Household;
