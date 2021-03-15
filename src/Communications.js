@@ -1,16 +1,14 @@
 import React from "react";
-import { makeStyles} from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import Typography from "@material-ui/core/Typography"; 
+import Typography from "@material-ui/core/Typography";
 import { Avatar, Card, CardContent, Container } from "@material-ui/core";
-
- 
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
   },
-   
+
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
@@ -20,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "space-evenly",
+    padding: theme.spacing(3),
   },
   card: {
     width: "200px",

@@ -9,6 +9,7 @@ import Cards from "./Card.js";
 import { Avatar } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import { db } from "./firebase.js";
+import { useStateValue } from "./Layout/StateProvider.js";
 
 const useStyles = makeStyles({
   root: {
@@ -42,6 +43,7 @@ const useStyles = makeStyles({
 });
 
 const Household = () => {
+  const [{ user }, dispatch] = useStateValue();
   const user_id = "M6IhURirXK9SWgfCk7wY";
   const classes = useStyles();
   const [userInfo, setUserInfo] = useState({ name: "Loading..." });
@@ -78,6 +80,9 @@ const Household = () => {
 
   return (
     <>
+      <br />
+      <br />
+      <br />
       <Grid container className={classes.Grid}>
         {/* <Grid Item xs={0} sm={1} /> */}
         {/* {userInfo.household?.map(({ name, photo_url }, key) => {
@@ -95,6 +100,7 @@ const Household = () => {
               <div style={{ display: "flex", padding: 10 }}>
                 <Avatar style={{ marginRight: 20 }} src={userInfo.photo_url} />
                 <Typography variant="h5" component="h2">
+                  {/* {user.displayName} */}
                   {userInfo.name}
                 </Typography>
               </div>
