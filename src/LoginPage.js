@@ -16,6 +16,8 @@ import GoogleButton from "react-google-button";
 import { Divider } from "@material-ui/core";
 import { auth, provider } from "./firebase";
 import firebase from "firebase";
+import { useHistory, useLocation } from "react-router";
+import { useStateValue } from "./Layout/StateProvider";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -38,31 +40,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LoginPage = () => {
+  const [{ user }, dispatch] = useStateValue();
+  let history = useHistory();
+  let location = useLocation();
   const classes = useStyles();
 
+  let { from } = location.state || { from: { pathname: "/" } };
+
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(
-      (user) => {
-        if (user) {
-          // User is signed in, see docs for a list of available properties
-          // https://firebase.google.com/docs/reference/js/firebase.User
-          var uid = user.uid;
-          console.log(uid);
-          // ...
-        } else {
-          console.log("user signed out");
-          // User is signed out
-          // ...
-        }
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-    return () => {
-      unsubscribe();
-    };
-  }, []);
+    if (user) {
+      history.replace(from.pathname);
+    }
+  }, [user]);
 
   const Register = () => {
     auth

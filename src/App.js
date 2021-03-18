@@ -3,7 +3,12 @@ import { useStateValue } from "./Layout/StateProvider";
 
 import Communications from "./Communications";
 import Sidebar from "./Sidebar";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import Household from "./Household";
 import Activity from "./Activity";
 import Home from "./Home";
@@ -14,31 +19,34 @@ import { useEffect } from "react";
 function App() {
   const [{ user }, dispatch] = useStateValue();
 
-  useEffect(() => {
-    if (user) {
-      const getUserDoc = () => {
-        // db.collection("users")
-        //   .doc(user.email)
-        db.collection("users")
-          .where("email", "==", user.email)
-          .get()
-          .then((doc) => {
-            if (doc.data()) {
-              // console.log("Got Data", doc.data());
-              dispatch({
-                type: "UPDATE_USERDOC",
-                userDoc: doc.data(),
-              });
-            } else {
-              // console.log("Retrying to get data");
-              getUserDoc();
-            }
-          })
-          .catch((error) => console.log(error));
-      };
-      getUserDoc();
-    }
-  }, [user]);
+  // useEffect(() => {
+  //   if (user) {
+  //     const getUserDoc = () => {
+  //       // db.collection("users")
+  //       //   .doc(user.email)
+  //       //TODO: change to Collection refernce code
+  //       db.collection("users")
+  //         .where("email", "==", user.email)
+  //         .get()
+  //         .then((doc) => {
+  //           let doc_data = doc.data();
+  //           console.log(doc_data);
+  //           if (doc_data) {
+  //             // console.log("Got Data", doc.data());
+  //             dispatch({
+  //               type: "UPDATE_USERDOC",
+  //               userDoc: doc.data(),
+  //             });
+  //           } else {
+  //             // console.log("Retrying to get data");
+  //             getUserDoc();
+  //           }
+  //         })
+  //         .catch((error) => console.log(error));
+  //     };
+  //     getUserDoc();
+  //   }
+  // }, [user]);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
@@ -81,24 +89,24 @@ function App() {
         <Sidebar>
           <div>
             <Switch>
-              <Route path="/household">
+              <ProtectedRoute path="/household">
                 <Household />
-              </Route>
-              <Route path="/communications">
+              </ProtectedRoute>
+              <ProtectedRoute path="/communications">
                 <Communications />
-              </Route>
-              <Route path="/activity">
+              </ProtectedRoute>
+              <ProtectedRoute path="/activity">
                 <Activity />
-              </Route>
+              </ProtectedRoute>
               <Route path="/login">
                 <LoginPage />
               </Route>
-              <Route path="/home">
+              <ProtectedRoute path="/home">
                 <Home />
-              </Route>
-              <Route path="/">
+              </ProtectedRoute>
+              <ProtectedRoute path="/">
                 <Home />
-              </Route>
+              </ProtectedRoute>
             </Switch>
           </div>
         </Sidebar>
@@ -106,5 +114,26 @@ function App() {
     </Router>
   );
 }
+
+const ProtectedRoute = ({ children, ...props }) => {
+  const [{ user }, dispatch] = useStateValue();
+  return (
+    <Route
+      {...props}
+      render={({ location }) =>
+        user ? (
+          children
+        ) : (
+          <Redirect
+            to={{
+              pathname: "/login",
+              state: { from: location },
+            }}
+          />
+        )
+      }
+    />
+  );
+};
 
 export default App;
