@@ -10,6 +10,8 @@ import { Avatar } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import { db } from "./firebase.js";
 import { useStateValue } from "./Layout/StateProvider.js";
+import HouseholdFamilyCard from "./HouseholdFamilyCard.js";
+import HouseholdStaffCard from "./HouseholdStaffCard.js";
 
 const useStyles = makeStyles({
   root: {
@@ -43,40 +45,40 @@ const useStyles = makeStyles({
 });
 
 const Household = () => {
-  const [{ user }, dispatch] = useStateValue();
-  const user_id = "M6IhURirXK9SWgfCk7wY";
+  const [{ user, userDoc }, dispatch] = useStateValue();
+  // const user_id = "M6IhURirXK9SWgfCk7wY";
   const classes = useStyles();
-  const [userInfo, setUserInfo] = useState({ name: "Loading..." });
-  useEffect(() => {
-    let retries = 5;
+  // const [userInfo, setUserInfo] = useState({ name: "Loading..." });
+  // useEffect(() => {
+  //   let retries = 5;
 
-    while (retries-- > 0) {
-      if (getUserInfo(user_id)) {
-        // console.log(retries);
-        break;
-      }
-    }
-  }, [user_id]);
-  const getUserInfo = (user_id) => {
-    // console.log("trying", user_id);
-    if (user_id) {
-      // console.log("has userid");
-      db.collection("users")
-        .doc(user_id)
-        .get()
-        .then((doc) => {
-          setUserInfo(doc.data());
-          // console.log(doc.data());
-          return true;
-        })
-        .catch((err) => {
-          console.log("err", err);
-          return false;
-        });
-    } else {
-      setTimeout(() => {}, 1000);
-    }
-  };
+  //   while (retries-- > 0) {
+  //     if (getUserInfo(user_id)) {
+  //       // console.log(retries);
+  //       break;
+  //     }
+  //   }
+  // }, [user_id]);
+  // const getUserInfo = (user_id) => {
+  //   // console.log("trying", user_id);
+  //   if (user_id) {
+  //     // console.log("has userid");
+  //     db.collection("users")
+  //       .doc(user_id)
+  //       .get()
+  //       .then((doc) => {
+  //         setUserInfo(doc.data());
+  //         // console.log(doc.data());
+  //         return true;
+  //       })
+  //       .catch((err) => {
+  //         console.log("err", err);
+  //         return false;
+  //       });
+  //   } else {
+  //     setTimeout(() => {}, 1000);
+  //   }
+  // };
 
   return (
     <>
@@ -94,14 +96,13 @@ const Household = () => {
             />
           );
         })}   */}
-        <Grid Item sm={10}>
+        <Grid item sm={10}>
           <Card className={classes.root}>
             <CardContent className={classes.Card}>
               <div style={{ display: "flex", padding: 10 }}>
-                <Avatar style={{ marginRight: 20 }} src={userInfo.photo_url} />
+                <Avatar style={{ marginRight: 20 }} src={userDoc?.photo_url} />
                 <Typography variant="h5" component="h2">
-                  {/* {user.displayName} */}
-                  {userInfo.name}
+                  {userDoc?.name}
                 </Typography>
               </div>
             </CardContent>
@@ -111,6 +112,21 @@ const Household = () => {
           </Card>
         </Grid>
         {/* <Grid Item xs={0} sm={1} /> */}
+      </Grid>
+
+      <Grid container item sm={10}>
+        {userDoc?.household?.map(({ name, photo_url }, key) => {
+          return (
+            <HouseholdFamilyCard name={name} photo_url={photo_url} key={key} />
+          );
+        })}
+      </Grid>
+      <Grid container item sm={10}>
+        {userDoc?.house_help?.map(({ name, photo_url }, key) => {
+          return (
+            <HouseholdStaffCard name={name} photo_url={photo_url} key={key} />
+          );
+        })}
       </Grid>
 
       <Grid container direction="column" className={classes.Grid}>

@@ -19,34 +19,35 @@ import { useEffect } from "react";
 function App() {
   const [{ user }, dispatch] = useStateValue();
 
-  // useEffect(() => {
-  //   if (user) {
-  //     const getUserDoc = () => {
-  //       // db.collection("users")
-  //       //   .doc(user.email)
-  //       //TODO: change to Collection refernce code
-  //       db.collection("users")
-  //         .where("email", "==", user.email)
-  //         .get()
-  //         .then((doc) => {
-  //           let doc_data = doc.data();
-  //           console.log(doc_data);
-  //           if (doc_data) {
-  //             // console.log("Got Data", doc.data());
-  //             dispatch({
-  //               type: "UPDATE_USERDOC",
-  //               userDoc: doc.data(),
-  //             });
-  //           } else {
-  //             // console.log("Retrying to get data");
-  //             getUserDoc();
-  //           }
-  //         })
-  //         .catch((error) => console.log(error));
-  //     };
-  //     getUserDoc();
-  //   }
-  // }, [user]);
+  useEffect(() => {
+    if (user) {
+      const getUserDoc = () => {
+        db.collection("users")
+          .where("email", "==", user.email)
+          .limit(1)
+          .get()
+          .then((querySnapshot) => {
+            let docs = [];
+            querySnapshot.forEach((doc) => {
+              docs.push(doc);
+            });
+            let doc = docs[0];
+            if (doc.data()) {
+              // console.log("Got Data", doc.data());
+              dispatch({
+                type: "UPDATE_USERDOC",
+                userDoc: doc.data(),
+              });
+            } else {
+              // console.log("Retrying to get data");
+              getUserDoc();
+            }
+          })
+          .catch((error) => console.log(error));
+      };
+      getUserDoc();
+    }
+  }, [user]);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {

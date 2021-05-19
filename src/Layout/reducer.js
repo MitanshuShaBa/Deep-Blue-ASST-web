@@ -1,5 +1,6 @@
 export const initialState = {
   user: null,
+  userDoc: {},
 };
 
 function reducer(state, action) {
@@ -8,6 +9,11 @@ function reducer(state, action) {
       return {
         ...state,
         user: action.user,
+      };
+    case "UPDATE_USERDOC":
+      return {
+        ...state,
+        userDoc: action.userDoc,
       };
     default:
       return state;
